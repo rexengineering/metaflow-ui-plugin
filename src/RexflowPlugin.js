@@ -25,7 +25,7 @@ export default class RexflowPlugin extends FlexPlugin {
 
     const options = { sortOrder: -1 };
     flex.AgentDesktopView
-      .Panel1
+      .Panel2
       .Content
       .add(<CallComponent key="callComponent" />, options);
 
