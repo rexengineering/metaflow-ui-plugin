@@ -3,10 +3,13 @@ import { VERSION } from '@twilio/flex-ui';
 import { FlexPlugin } from 'flex-plugin';
 
 import reducers, { namespace } from './states';
-import CallComponent from "./components/CallComponent/CallComponent.Container";
 import {Actions} from "./states/PluginState";
+import getStore from "./store";
+import {Provider} from "react-redux";
+import AppContainer from "./containers/App/App.container";
 
 const PLUGIN_NAME = 'RexflowPlugin';
+const store = getStore({});
 
 export default class RexflowPlugin extends FlexPlugin {
   constructor() {
@@ -27,10 +30,12 @@ export default class RexflowPlugin extends FlexPlugin {
     flex.AgentDesktopView
       .Panel2
       .Content
-      .add(<CallComponent key="callComponent" />, options);
+      .replace( <Provider key="rexflow" store={store}>
+          <AppContainer />
+        </Provider>, options);
 
-    manager.workerClient.on("reservationCreated", (payload) => manager.store.dispatch(Actions.updateCallState("Incoming Call!")))
-    flex.Actions.addListener("afterAcceptTask", (payload) => manager.store.dispatch(Actions.updateCallState("Call Accepted!")));
+    manager.workerClient.on("reservationCreated", () => manager.store.dispatch(Actions.updateCallState("Incoming Call!")))
+    flex.Actions.addListener("afterAcceptTask", () => manager.store.dispatch(Actions.updateCallState("Call Accepted!")));
   }
 
   /**
@@ -44,7 +49,6 @@ export default class RexflowPlugin extends FlexPlugin {
       console.error(`You need FlexUI > 1.9.0 to use built-in redux; you are currently on ${VERSION}`);
       return;
     }
-
     manager.store.addReducer(namespace, reducers);
   }
 }
