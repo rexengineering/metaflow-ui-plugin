@@ -43,10 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
   inProgressMessage: {
     marginLeft: theme.spacing(1),
+    color: theme.palette.common.white,
   },
 }));
 
-function Task({ className, task, dispatch, tasksState }) {
+function Task({submitButtonText, className, task, dispatch, tasksState }) {
   const { data } = task;
   const { formikInitialValues, validationSchema } =
     convertTaskFieldsToFormUtils(data);
@@ -129,7 +130,7 @@ function Task({ className, task, dispatch, tasksState }) {
             variant="contained"
             color="secondary"
           >
-            Submit
+            {submitButtonText}
           </Button>
           {exceptionError && (
             <Typography variant="body2" color="error">
@@ -145,9 +146,11 @@ function Task({ className, task, dispatch, tasksState }) {
 Task.defaultProps = {
   className: "",
   task: {},
+  submitButtonText: "Submit",
 };
 
 Task.propTypes = {
+  submitButtonText: PropTypes.string,
   className: PropTypes.string,
   task: PropTypes.shape({
     data: PropTypes.arrayOf(

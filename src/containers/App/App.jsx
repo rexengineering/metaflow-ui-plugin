@@ -14,6 +14,8 @@ import getDeploymentId from "../../store/thunks/getDeploymentId";
 import Workflow from "../../components/Workflow/Workflow.container";
 import WorkflowInstantiator from "../../components/WorkflowInstantiator/WorkflowInstantiator.container";
 import ActionCard from "../../components/ActionCard";
+import CallerInfo from "../../components/CallerInfo/Callerinfo";
+import TalkTrack from "../../components/TalkTracks/TalkTrack";
 
 const useStyles = makeStyles((theme) => ({
     app: {
@@ -30,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
         overflow: "auto",
     },
     tray2: {
-        padding: theme.spacing(3, 1.5, 3, 3),
+        width: "60%",
         overflow: "auto",
     },
     tray3: {
-        width: "60%",
+        width: "100%",
         padding: theme.spacing(3, 3, 3, 1.5),
         overflow: "auto",
     },
@@ -64,99 +66,39 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function App({ deployments, activeWorkflows, dispatch, }) {
+function App() {
+    const talkTrack = [
+        {
+            identifier: "as345",
+            title: "Intro",
+            speech:
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda aut est ipsum minus molestiae nesciunt obcaecati quo quos, repudiandae sed tempora voluptatem. Accusantium consequuntur dicta error obcaecati perspiciatis quisquam recusandae?",
+            actions: ["Selling", "Buying", "Things", "IoT"],
+            onInquirySelected: () => {},
+            onSkip: () => {},
+            active: true,
+        },
+        {
+            identifier: "56htr4g5",
+            title: "Conclude",
+            speech:
+                "Conclusion, consectetur adipisicing elit. Assumenda aut est ipsum minus molestiae nesciunt obcaecati quo quos, repudiandae sed tempora voluptatem. Accusantium consequuntur dicta error obcaecati perspiciatis quisquam recusandae?",
+            actions: [],
+            onInquirySelected: () => {},
+            onSkip: () => {},
+            active: false,
+        },
+    ];
     const classes = useStyles();
-    const areDeploymentsUnavailable =
-        Array.isArray(deployments) && !deployments.length;
-    const [isAutomaticState, setIsAutomaticState] = useState(true);
-
-    useEffect(() => dispatch(getDeploymentId()), []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    useEffect(() => {
-        if (isAutomaticState) {
-            const interval = setInterval(() => dispatch(fetchTasks()), 500);
-            return () => clearInterval(interval);
-        }
-        return () => {};
-    }, [isAutomaticState]); // eslint-disable-line react-hooks/exhaustive-deps
-
-    if (areDeploymentsUnavailable)
-        return <Typography>There are no deployments available</Typography>;
-
     return (
         <div className={classes.app}>
             <CssBaseline />
             <Pane>
                 <Tray className={classes.tray2}>
-                    {(!Array.isArray(activeWorkflows) || !activeWorkflows.length) && (
-                        <Paper className={classes.paper}>
-                            <Typography>There are no active workflow instances</Typography>
-                        </Paper>
-                    )}
-                    {Array.isArray(activeWorkflows) &&
-                    activeWorkflows.map((workflowID) => (
-                        <ActionCard className={classes.button} key={workflowID}>
-                            <Workflow
-                                className={classes.workflow}
-                                workflowID={workflowID}
-                            />
-                        </ActionCard>
-                    ))}
+                    <CallerInfo callerName="John Doe" />
                 </Tray>
                 <Tray className={classes.tray3}>
-                    <Paper className={classes.paper}>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            className={classes.leadingWrapper}
-                        >
-                            Initiate Workflows
-                        </Typography>
-                        {areDeploymentsUnavailable && (
-                            <Typography>There are no workflows available</Typography>
-                        )}
-                        {Array.isArray(deployments) &&
-                        deployments.map((deploymentID) => (
-                            <div key={deploymentID} className={classes.deployment}>
-                                <Typography
-                                    variant="body2"
-                                    className={classes.deploymentTitle}
-                                >
-                                    {deploymentID}
-                                </Typography>
-                                <WorkflowInstantiator deploymentID={deploymentID} />
-                            </div>
-                        ))}
-                    </Paper>
-                    <Paper className={classes.paper}>
-                        <Typography
-                            variant="h5"
-                            align="center"
-                            className={classes.leadingWrapper}
-                        >
-                            State Helpers
-                        </Typography>
-                        <Button
-                            color="secondary"
-                            type="button"
-                            variant="contained"
-                            onClick={() => dispatch(fetchTasks())}
-                            className={classes.button}
-                        >
-                            Update state
-                        </Button>
-                        <Button
-                            variant="contained"
-                            type="button"
-                            onClick={() => setIsAutomaticState(!isAutomaticState)}
-                            className={classes.button}
-                        >
-                            Toggle automatic state
-                        </Button>
-                        <Typography>
-                            Automatic state fetching is {isAutomaticState ? "On" : "Off"}
-                        </Typography>
-                    </Paper>
+                    <TalkTrack talkTrackItems={talkTrack} />
                 </Tray>
             </Pane>
         </div>

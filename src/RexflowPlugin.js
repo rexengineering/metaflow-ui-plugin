@@ -34,8 +34,9 @@ export default class RexflowPlugin extends FlexPlugin {
           <AppContainer />
         </Provider>, options);
 
-    manager.workerClient.on("reservationCreated", () => manager.store.dispatch(Actions.updateCallState("Incoming Call!")))
-    flex.Actions.addListener("afterAcceptTask", () => manager.store.dispatch(Actions.updateCallState("Call Accepted!")));
+    // => set this to trackable state value, also, payload has several Tasks props and events props to use for state management
+    manager.workerClient.on("reservationCreated", (payload) => manager.store.dispatch(Actions.updateCallState(payload)))
+    flex.Actions.addListener("afterAcceptTask", (payload) => manager.store.dispatch(Actions.updateCallState(payload)));
   }
 
   /**
