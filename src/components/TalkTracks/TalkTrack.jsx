@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   IconButton,
   makeStyles,
@@ -35,90 +35,100 @@ const useStyles = makeStyles((theme) => ({
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-    width: "100%",
+    width: "50%",
     flexGrow: 1,
   },
   tabsPanel: {
-    width: "150%",
+    width: "100%",
     flexGrow: 1,
   },
   tabsIndicator: {
     backgroundColor: theme.palette.primary.main,
   },
-  container: {
-    width: "100%",
-  },
 }));
 
-function TalkTrack({ talkTrackItems }) { // => talkTrackItems should be come from a wrapper component, it should be stored in the state
+function TalkTrack({ talkTrackItems, activeTalkTrackID, onSkip, onActionSelected, onTabChange, className }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState("as345"); // => Replace for initial talk track state prop
+  const [value, setValue] = React.useState(activeTalkTrackID);
   const handleChange = (event, newValue) => {
+    onTabChange(newValue);
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setValue(activeTalkTrackID);
+  }, [activeTalkTrackID, setValue])
+
   return (
-    <ActionCard className={classes.container}>
-      <section className={classes.header}>
-        <Typography variant="h4">Talk track</Typography>
-        <IconButton className={classes.addButton}>
-          <FontAwesomeIcon icon={faPlus} />
-        </IconButton>
-      </section>
-      <section className={classes.talkTracks}>
-        <Tabs
-          classes={{ indicator: classes.tabsIndicator }}
-          className={classes.tabs}
-          onChange={handleChange}
-          orientation="vertical"
-          value={value}
-        >
-          {Array.isArray(talkTrackItems) &&
-            talkTrackItems.map(({ identifier, title }) => (
-              <Tab
-                key={identifier}
-                className={clsx(identifier === value && classes.activeTab)}
-                label={title}
-                value={identifier}
-              />
-            ))}
-        </Tabs>
-        <section className={classes.tabsPanel}>
-          {Array.isArray(talkTrackItems) &&
-            talkTrackItems.map(
-              ({
-                identifier,
-                title,
-                speech,
-                actions,
-                onSkip,
-                onInquirySelected,
-                active,
-              }) => (
-                <TabPanel
-                  key={identifier}
-                  index={`${value}`}
-                  value={identifier}
-                >
-                  <TalkTrackItem
-                    title={title}
-                    speech={speech}
-                    actions={actions}
-                    onSkip={onSkip}
-                    identifier={identifier}
-                    onInquirySelected={onInquirySelected}
-                    active={active}
-                  />
-                </TabPanel>
-              )
-            )}
+      <ActionCard className={clsx(classes.paper, className)}>
+        <section className={classes.header}>
+          <Typography variant="h4">Talk track</Typography>
+          <IconButton className={classes.addButton}>
+            <FontAwesomeIcon icon={faPlus} />
+          </IconButton>
         </section>
-      </section>
-    </ActionCard>
+        <section className={classes.talkTracks}>
+          <Tabs
+              classes={{ indicator: classes.tabsIndicator }}
+              className={classes.tabs}
+              onChange={handleChange}
+              orientation="vertical"
+              value={value}
+          >
+            {Array.isArray(talkTrackItems) &&
+            talkTrackItems.map(({ identifier, title }) => (
+                <Tab
+                    key={identifier}
+                    label={title}
+                    value={identifier}
+                />
+            ))}
+          </Tabs>
+          <section className={classes.tabsPanel}>
+            {Array.isArray(talkTrackItems) &&
+            talkTrackItems.map(
+                ({
+                   identifier,
+                   title,
+                   speech,
+                   actions,
+                   active,
+                 }) => (
+                    <TabPanel
+                        key={identifier}
+                        index={`${value}`}
+                        value={identifier}
+                    >
+                      <TalkTrackItem
+                          title={title}
+                          speech={speech}
+                          actions={actions}
+                          onSkip={onSkip}
+                          identifier={identifier}
+                          onActionSelected={onActionSelected}
+                          active={active}
+                      />
+                    </TabPanel>
+                )
+            )}
+          </section>
+        </section>
+      </ActionCard>
   );
 }
+
+TalkTrack.defaultProps = {
+  className: "",
+}
+
 TalkTrack.propTypes = {
   talkTrackItems: PropTypes.arrayOf(PropTypes.shape(talkTrackItemShape))
-    .isRequired,
+      .isRequired,
+  className: PropTypes.string,
+  activeTalkTrackID: PropTypes.string.isRequired,
+  onSkip: PropTypes.func.isRequired,
+  onActionSelected: PropTypes.func.isRequired,
+  onTabChange: PropTypes.func.isRequired,
 };
 
 export default TalkTrack;

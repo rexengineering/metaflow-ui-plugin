@@ -2,11 +2,12 @@ import { connect } from 'react-redux';
 import App from "./App";
 
 const mapStateToProps = (state) => {
-    const { rexFlow } = state;
+    const { rexFlow, talkTracks } = state;
     const { deployments, activeWorkflows } = rexFlow;
     return {
         deployments,
-        activeWorkflows
+        activeWorkflows,
+        talkTracks: talkTracks.talkTracks,
     }
 };
 

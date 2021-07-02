@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
   actions: {
     display: "flex",
     justifyContent: "left",
-    flexWrap: "wrap",
   },
   action: {
     margin: theme.spacing(0, 1, 2, 0),
@@ -25,46 +24,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function TalkTrackItem({ title, speech, actions, onInquirySelected, onSkip }) {
+function TalkTrackItem({ identifier, title, speech, actions, onActionSelected, onSkip }) {
   const classes = useStyles();
   return (
-    <Paper elevation={0} className={classes.paper}>
-      <Typography color="primary" className={classes.title} variant="body1">
-        {title}
-      </Typography>
-      <Typography className={classes.speech} variant="body2">
-        {speech}
-      </Typography>
+      <Paper elevation={0} className={classes.paper}>
+        <Typography color="primary" className={classes.title} variant="body1">
+          {title}
+        </Typography>
+        <Typography className={classes.speech} variant="body2">
+          {speech}
+        </Typography>
 
-      {actions.length ? (
-        <section>
-          <Typography color="primary" className={classes.title} variant="body1">
-            Select button based on customer inquiry
-          </Typography>
-          <section className={classes.actions}>
-            {actions.map((action) => (
-              <Chip
-                key={action}
-                className={classes.action}
-                variant="outlined"
-                onClick={() => onInquirySelected(action)}
-                size="small"
-                label={action}
-              />
-            ))}
-          </section>
-        </section>
-      ) : null}
-      <Button type="button" onClick={onSkip}>
-        Skip
-      </Button>
-    </Paper>
+        {actions.length ? (
+            <section>
+              <Typography color="primary" className={classes.title} variant="body1">
+                Select button based on customer inquiry
+              </Typography>
+              <section className={classes.actions}>
+                {actions.map(({label, talktrack_id}) => (
+                    <Chip
+                        key={talktrack_id}
+                        className={classes.action}
+                        variant="outlined"
+                        onClick={() => onActionSelected(talktrack_id)}
+                        size="small"
+                        label={label}
+                    />
+                ))}
+              </section>
+            </section>
+        ) : null}
+        <Button type="button" onClick={() => onSkip(identifier)}>
+          Skip
+        </Button>
+      </Paper>
   );
 }
 
 TalkTrackItem.defaultProps = {
   actions: [],
-  onInquirySelected: () => {},
+  onActionSelected: () => {},
   active: false,
 };
 

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { initWorkflow } from "../../store/thunks/thunks";
 import ActionButton from "../ActionButton";
-import { selectIsWorkflowBeingInitialized } from "../../store/selectors";
+import { selectIsWorkflowBeingInitialized } from "../../store/selectors/rexflow";
 
 function WorkflowInstantiator({ deploymentID, dispatch, isWorkflowBeingInitialized}) {
   const isWorkflowBeingInitializedFlag = selectIsWorkflowBeingInitialized(deploymentID, isWorkflowBeingInitialized)

@@ -35,21 +35,26 @@ export const convertValidationErrorsTo = (errors) => {
   };
   if (!errors) return initialValues;
   return errors.reduce(
-    ({ initialErrors, initialTouched }, { dataId, message }) => ({
-      initialErrors: {
-        ...initialErrors,
-        [dataId]: message,
-      },
-      initialTouched: {
-        ...initialTouched,
-        [dataId]: true,
-      },
-    }),
-    initialValues
+      ({ initialErrors, initialTouched }, { dataId, message }) => ({
+        initialErrors: {
+          ...initialErrors,
+          [dataId]: message,
+        },
+        initialTouched: {
+          ...initialTouched,
+          [dataId]: true,
+        },
+      }),
+      initialValues
   );
 };
 
 export const parseFieldNumberValue = (value) => {
   const parsedValue = Number.parseFloat(value);
   return Number.isNaN(parsedValue) ? null : parsedValue;
+};
+
+export const calculateWorkFlowNameFromDeploymentID = (dID) => {
+  const words = dID.split("-");
+  return words[0] ?? null;
 };

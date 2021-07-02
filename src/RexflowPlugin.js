@@ -7,6 +7,7 @@ import {Actions} from "./states/PluginState";
 import getStore from "./store";
 import {Provider} from "react-redux";
 import AppContainer from "./containers/App/App.container";
+import CustomTheme from "./theme";
 
 const PLUGIN_NAME = 'RexflowPlugin';
 const store = getStore({});
@@ -25,14 +26,17 @@ export default class RexflowPlugin extends FlexPlugin {
    */
   init(flex, manager) {
     this.registerReducers(manager);
-
     const options = { sortOrder: -1 };
     flex.AgentDesktopView
       .Panel2
       .Content
-      .replace( <Provider key="rexflow" store={store}>
-          <AppContainer />
-        </Provider>, options);
+      .replace(
+          <Provider key="rexflow" store={store}>
+            <AppContainer />
+          </Provider>,
+          options);
+
+    manager.updateConfig(CustomTheme);
 
     // => set this to trackable state value, also, payload has several Tasks props and events props to use for state management
     manager.workerClient.on("reservationCreated", (payload) => manager.store.dispatch(Actions.updateCallState(payload)))

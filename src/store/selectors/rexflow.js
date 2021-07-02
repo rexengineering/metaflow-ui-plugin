@@ -14,3 +14,7 @@ export const selectTask = (workflowID, tasks= {}) => {
 };
 export const selectValidationErrors = (task, tasksState= {}) => tasksState[buildTaskIdentifier(task)]?.errors ?? null;
 export const selectExceptionError = (task, tasksState= {}) => tasksState[buildTaskIdentifier(task)]?.exceptionError ?? null;
+export const selectWorkflowID = (workflowName, activeWorkflows) => {
+      if (!Array.isArray(activeWorkflows)) return "";
+      return activeWorkflows.find((activeWorkflow) => activeWorkflow.includes(workflowName));
+};
