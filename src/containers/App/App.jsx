@@ -19,6 +19,7 @@ import {mapTalkTracks, getActiveTalkTrackID, getActiveTalkTrackWorkflow} from ".
 import Notes from "../../components/Notes";
 import CallerInfo from "../../components/CallerInfo/CallerInfo.container";
 import InformationForm from "../../components/InformationToCollect/InformationForm";
+import PostTaskModal from "../../components/PostTaskModal";
 
 const useStyles = makeStyles((theme) => ({
     app: {
@@ -94,6 +95,8 @@ function App({deployments, activeWorkflows, talkTracks, dispatch}) {
     const rootTalkTrack = "intro-123";
     const deploymentID = "callworkflow-2f8501bf";
     const [shouldDispatchRootTalkTrack, setShouldDispatchRootTalkTrack] = useState(true);
+    const [showPostTaskModal, setShowPostTaskModal] = useState(true);
+    const handleCloseShowPostTaskModal = () => setShowPostTaskModal(false);
 
     useEffect(() => dispatch(getDeploymentId()), []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -144,6 +147,7 @@ function App({deployments, activeWorkflows, talkTracks, dispatch}) {
                                talkTrackItems={mappedTalkTracks} />
                 </Tray>
                 <Tray className={classes.tray3}>
+                    <PostTaskModal open={showPostTaskModal} handleClose={handleCloseShowPostTaskModal} workflowID={currentTalkTrackWorkflow} />
                     <Notes />
                     <InformationForm workflowID={currentTalkTrackWorkflow} />
                 </Tray>

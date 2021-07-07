@@ -8,19 +8,9 @@ export const customerInfoShape = PropTypes.shape({
   type: PropTypes.string.isRequired,
 });
 
-export const managerInfoShape = PropTypes.shape({
-  name: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  onTransferCallClick: PropTypes.func.isRequired,
-});
-
 export const nextStepsShape = PropTypes.arrayOf(PropTypes.string);
 
 export const notesShape = PropTypes.arrayOf(PropTypes.string);
-
-export const tagsShape = PropTypes.arrayOf(PropTypes.string);
 
 export const userTypesShape = PropTypes.arrayOf(
     PropTypes.shape({
@@ -32,12 +22,18 @@ export const userTypesShape = PropTypes.arrayOf(
 export const talkTrackItemShape = {
   identifier: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  speech: PropTypes.string.isRequired,
-  actions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string,
-    talktrack_id: PropTypes.string,
+  active: PropTypes.bool.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.shape({
+    identifier: PropTypes.string.isRequired,
+    speech: PropTypes.string.isRequired,
+    actions: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      talktrack_id: PropTypes.string,
+    })),
+    title: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired,
   })),
   onActionSelected: PropTypes.func,
   onSkip: PropTypes.func,
-  active: PropTypes.bool,
+  className: PropTypes.string,
 };
