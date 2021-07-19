@@ -1,1 +1,0 @@
-export { default } from "src/prism/containers/App/App.container";
