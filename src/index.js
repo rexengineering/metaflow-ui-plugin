@@ -1,4 +1,4 @@
 import * as FlexPlugin from 'flex-plugin';
-import RexflowPlugin from './RexflowPlugin';
+import RexFlowPlugin from './RexFlowPlugin';
 
-FlexPlugin.loadPlugin(RexflowPlugin);
+FlexPlugin.loadPlugin(RexFlowPlugin);
