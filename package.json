@@ -6,8 +6,6 @@
     "postinstall": "flex-plugin pre-script-check"
   },
   "dependencies": {
-    "flex-plugin": "^4.1.2",
-    "flex-plugin-scripts": "4.0.0",
     "@apollo/client": "^3.3.14",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@fortawesome/fontawesome-pro": "^5.15.2",
@@ -30,6 +28,9 @@
     "cleave.js": "^1.6.0",
     "clsx": "^1.1.1",
     "date-fns": "^2.19.0",
+    "file-loader": "^6.2.0",
+    "flex-plugin": "^4.1.2",
+    "flex-plugin-scripts": "4.0.0",
     "formik": "^2.2.6",
     "graphql": "^15.5.0",
     "prop-types": "^15.7.2",
@@ -39,8 +40,7 @@
     "react-scripts": "4.0.2",
     "redux": "^4.0.5",
     "redux-mock-store": "^1.5.4",
-    "redux-thunk": "^2.3.0",
-    "reselect": "^4.0.0",
+    "url-loader": "^4.1.1",
     "web-vitals": "^1.1.0",
     "yup": "^0.32.9"
   },
